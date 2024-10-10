@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables
+
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
@@ -18,10 +20,10 @@ db.connect((err) => {
    console.log('Connected to MySQL Database');
 });
 
-// Add your routes here
+// Health check endpoint
 app.get('/health', (req, res) => {
    res.json("Health check endpoint");
-})
+});
 
 app.use('/api', routes);
 
