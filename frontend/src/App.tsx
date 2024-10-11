@@ -19,6 +19,7 @@ import { Book } from './models/Books';
 // import { Author } from './models/Author';
 
 const API_URL = import.meta.env.VITE_API_URL;
+console.log("API_URL:", API_URL)
 
 ChartJS.register(
   ArcElement,
@@ -149,18 +150,38 @@ function App() {
 
   const fetchBooks = async () => {
     try {
+      console.log('Fetching books from API:', `${API_URL}/books`);
+      
       const response = await fetch(`${API_URL}/books`);
-      const { books, message } = await response.json();
-
+      
+      // Debug: Log the raw response status and headers
+      console.log('Response Status:', response.status);
+      console.log('Response Headers:', response.headers);
+  
+      // Debug: Check the content type before parsing
+      const contentType = response.headers.get('content-type');
+      console.log('Content-Type:', contentType);
+  
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Unexpected content type: ' + contentType);
+      }
+  
+      const responseData = await response.text(); // Read the raw response as text
+      console.log('Raw Response Data:', responseData);
+  
+      // Attempt to parse the JSON data
+      const { books, message } = JSON.parse(responseData);
+  
       if (!response.ok) {
         throw new Error(message);
       }
-
+  
       setBooks(books);
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching books:', error);
     }
   };
+  
 
   // const fetchAuthors = async () => {
   //   try {
