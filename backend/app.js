@@ -1,4 +1,3 @@
-// app.js
 require('dotenv').config(); // Load environment variables
 
 const express = require('express');
@@ -10,7 +9,7 @@ const db = require('./configs/db.js'); // Import the db connection
 const app = express();
 
 // Middleware setup
-app.use(cors());
+app.use(cors());  // Accept requests from any origin
 app.use(bodyParser.json());
 
 // Debug: Log environment variables for database connection (excluding sensitive info)
